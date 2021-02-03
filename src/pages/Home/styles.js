@@ -4,12 +4,14 @@ import { darken } from 'polished';
 export const ProductList = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+  list-style: none;
 
   li {
     display: flex;
     flex-direction: column;
     background: #fff;
-    border-radius: 4px;
+    border-radius: 8px;
     padding: 20px;
 
     img {
