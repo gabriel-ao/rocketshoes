@@ -1,3 +1,7 @@
+# reconhecer o caminho da api pelo json server
+
+json-server server.json -p 3333 -w
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

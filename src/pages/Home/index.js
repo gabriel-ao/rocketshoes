@@ -1,124 +1,55 @@
-import React from 'react';
 
+import React, { Component } from 'react';
 import { MdAddShoppingCart } from  'react-icons/md';
+import { formatPrice } from '../../util/format';
+import api from '../../services/api';
+
+
 import { ProductList } from './styles';
 
-function Home() {
-  return (
-    <ProductList>
-      <li>
-        <img
-          src="https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa/global/371570/25/sv01/fnd/BRA/w/320/h/320/bg/255,255,255"
-          alt="Tênis"
-        />
-        <strong> Tênis muito legal </strong>
-        <span> R$129,90 </span>
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#FFF"/> 3
-          </div>
+export default class Home extends Component {
+  state = {
+    products: [],
+  }
 
-          <span> ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
+  async componentDidMount() {
+    const response = await api.get('products');
 
-      <li>
-        <img
-          src="https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa/global/371570/25/sv01/fnd/BRA/w/320/h/320/bg/255,255,255"
-          alt="Tênis"
-        />
-        <strong> Tênis muito legal </strong>
-        <span> R$129,90 </span>
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#FFF"/> 3
-          </div>
+    const data = response.data.map(product => ({
+      ...product,
+      priceFormatted: formatPrice(product.price)
+    }));
 
-          <span> ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
+    console.log(response)
+    this.setState({ products:data})
+  }
 
-      <li>
-        <img
-          src="https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa/global/371570/25/sv01/fnd/BRA/w/320/h/320/bg/255,255,255"
-          alt="Tênis"
-        />
-        <strong> Tênis muito legal </strong>
-        <span> R$129,90 </span>
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#FFF"/> 3
-          </div>
+  render () {
+    const { products } = this.state
 
-          <span> ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
+      return (
+        <ProductList>
+      { products.map(product => (
+        <li key={product.id}>
+          <img
+            src={product.image}
+            alt={product.title}
+          />
+          <strong> {product.title}</strong>
+          <span> {product.priceFormatted}</span>
+          <button type="button">
+            <div>
+              <MdAddShoppingCart size={16} color="#FFF"/> 3
+            </div>
 
-      <li>
-        <img
-          src="https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa/global/371570/25/sv01/fnd/BRA/w/320/h/320/bg/255,255,255"
-          alt="Tênis"
-        />
-        <strong> Tênis muito legal </strong>
-        <span> R$129,90 </span>
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#FFF"/> 3
-          </div>
+            <span> ADICIONAR AO CARRINHO</span>
+          </button>
+        </li>
+      ))}
 
-          <span> ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
-
-      <li>
-        <img
-          src="https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa/global/371570/25/sv01/fnd/BRA/w/320/h/320/bg/255,255,255"
-          alt="Tênis"
-        />
-        <strong> Tênis muito legal </strong>
-        <span> R$129,90 </span>
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#FFF"/> 3
-          </div>
-
-          <span> ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
-
-      <li>
-        <img
-          src="https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa/global/371570/25/sv01/fnd/BRA/w/320/h/320/bg/255,255,255"
-          alt="Tênis"
-        />
-        <strong> Tênis muito legal </strong>
-        <span> R$129,90 </span>
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#FFF"/> 3
-          </div>
-
-          <span> ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
-
-      <li>
-        <img
-          src="https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa/global/371570/25/sv01/fnd/BRA/w/320/h/320/bg/255,255,255"
-          alt="Tênis"
-        />
-        <strong> Tênis muito legal </strong>
-        <span> R$129,90 </span>
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#FFF"/> 3
-          </div>
-
-          <span> ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
     </ProductList>
-  )
+    )
+  }
 }
 
-export default Home;
+
