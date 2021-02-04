@@ -1,5 +1,6 @@
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 import { MdAddShoppingCart } from  'react-icons/md';
 import { formatPrice } from '../../util/format';
 import api from '../../services/api';
@@ -7,7 +8,7 @@ import api from '../../services/api';
 
 import { ProductList } from './styles';
 
-export default class Home extends Component {
+class Home extends Component {
   state = {
     products: [],
   }
@@ -20,8 +21,18 @@ export default class Home extends Component {
       priceFormatted: formatPrice(product.price)
     }));
 
-    console.log(response)
+    // console.log(response)
     this.setState({ products:data})
+  }
+
+  // dispatch dispara as ações no redux
+  handleAddProduct = product => {
+    const { dispatch } = this.props;
+
+    dispatch({
+      type: 'ADD_TO_CART',
+      product,
+    })
   }
 
   render () {
@@ -37,7 +48,10 @@ export default class Home extends Component {
           />
           <strong> {product.title}</strong>
           <span> {product.priceFormatted}</span>
-          <button type="button">
+          <button
+            type="button"
+            onClick={() => this.handleAddProduct(product)}
+          >
             <div>
               <MdAddShoppingCart size={16} color="#FFF"/> 3
             </div>
@@ -52,4 +66,5 @@ export default class Home extends Component {
   }
 }
 
-
+// existem 2 parenteses pois o connect retorna outra função
+export default connect()(Home);
