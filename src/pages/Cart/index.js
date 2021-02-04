@@ -8,12 +8,14 @@ import {
   MdDelete
 } from 'react-icons/md';
 
+import { formatPrice } from '../../util/format'
+
 import * as CartActions from '../../store/modules/cart/actions'
 
 
 import { Container, ProductTable, Total } from './styles';
 
-function Cart({ cart, removeFromCart, updateAmount }) {
+function Cart({ cart, total, removeFromCart, updateAmount }) {
   function increment(product) {
     updateAmount(product.id, product.amount + 1);
   }
@@ -60,7 +62,7 @@ function Cart({ cart, removeFromCart, updateAmount }) {
                 </div>
               </td>
               <td>
-                <strong>R$24,40</strong>
+                <strong>{product.subtotal}</strong>
               </td>
 
               <td>
@@ -79,16 +81,30 @@ function Cart({ cart, removeFromCart, updateAmount }) {
 
         <Total>
           <span>Total</span>
-          <strong>R$12,20</strong>
+          <strong>{total}</strong>
         </Total>
       </footer>
     </Container>
   )
 }
 
+// OBS: O melhor lugar para se fazer uma alteração do redux é
+// dentro do mapStateToPros
+
+
 // recebe todas informações do reducer de cart
 const mapStateToProps = state => ({
-  cart: state.cart,
+  cart: state.cart.map(product => ({
+    ...product,
+    subtotal: formatPrice(product.price * product.amount)
+  })),
+  // utilizando o reduce para reduzir o array num unico valor
+  total: formatPrice(
+    state.cart.reduce((total, product) => {
+      // atribuindo um valor ao total a cada iteração
+      return total + product.price * product.amount;
+    }, 0),
+  )
 })
 
 const mapDispachToProps = dispatch =>
