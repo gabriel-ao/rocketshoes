@@ -3,7 +3,7 @@ import produce from 'immer';
 export default function cart(state = [], action) {
   // console.log(state)
   switch(action.type) {
-    case 'ADD_TO_CART':
+    case '@cart/ADD':
       // draft é uma copia do estado
       return produce(state, draft => {
         // vericando se o id que esta vindo do draft é igual ao que ja tem na action
@@ -12,7 +12,7 @@ export default function cart(state = [], action) {
         productIndex >= 0 ? draft[productIndex].amount +=1 : draft.push({...action.product, amount:1} );
       });
 
-    case 'REMOVE_FROM_CART':
+    case '@cart/REMOVE':
       return produce(state, draft => {
         // para deletar o id vem direto da action, sendo assim === action.id
         const productIndex = draft.findIndex(p => p.id === action.id)
