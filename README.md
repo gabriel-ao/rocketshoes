@@ -2,7 +2,7 @@
 yarn install
 
 # Depois, inicie o server: 
-# reconhecer o caminho da api pelo json server
+OBS: reconhecer o caminho da api pelo json server
 json-server server.json -p 3333
 
 Agora inicie o aplicativo react: yarn start
